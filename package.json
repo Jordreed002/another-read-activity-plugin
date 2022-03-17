@@ -1,0 +1,21 @@
+{
+  "name": "another-read-activity-plugin",
+  "version": "1.0.0",
+  "description": "Plugin that creates posts based on the activity data sent from the another read website",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
+  },
+  "author": "Line Industries",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/scripts": "22.0.1"
+  },
+  "dependencies": {
+    "@wordpress/editor": "^12.2.2",
+    "@wordpress/element": "^4.1.1",
+    "@wordpress/server-side-render": "^3.1.3"
+  }
+}
