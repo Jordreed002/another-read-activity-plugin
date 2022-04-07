@@ -1,6 +1,6 @@
 <?php
     /**
-        * Plugin Name: Another Read activity plugin dev
+        * Plugin Name: Another Read activity plugin
         * Description: Add activity from anotherread.com to your wesbsite using this plugin - includes Gutenberg block to add activity content to any of your pages or posts.
         * Version: 1.1
         * Author: Line Industries
