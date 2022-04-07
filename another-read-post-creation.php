@@ -19,14 +19,22 @@ class AnotherReadPostCreator{
     
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     
-        $data =
-        [
+        $data = array(
+        
             "accesskey" => $options['accesskey'],
-            "quantityofrecords"=> $options['results'],
-            "publishers" => $options['publisher'],
-            "contributors" => $options['contributor'],
-            "keywords"=> $options['keyword']
-        ];
+            "quantityofrecords" => $options['results'],
+        );
+
+        if($options['publisher'] !== ''){
+            $data['publisher'] = $options['publisher'];
+        }
+        if($options['contributor'] !== ''){
+            $data['contributors'] = $options['contributor'];
+        }
+        if($options['keyword'] !== ''){
+            $data['keywords'] = $options['keyword'];
+        }
+
     
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     
@@ -45,43 +53,34 @@ class AnotherReadPostCreator{
                 add_option('another_read_settings_timestamp', $timestamp);
             }
             //print_r("there was no error");
-            return $activityRepsonse['Payload'];
+            $options['apiCallSuccessful'] = true;
+            update_option('another_read_settings', $options);
+            return $activityRepsonse;
         }
         else{
-            print_r("there was an error");
+            
+            //print_r("there was an error");
+            $options['apiCallSuccessful'] = false;
+            update_option('another_read_settings', $options);
+            return $activityRepsonse;
         }
     
     }
 
     static function create(){
 
-        function checkRecentPosts($numberOfResults){
+        $options = get_option('another_read_settings');
+        $numberOfResults = $options['results'];
 
-            $recentPosts = wp_get_recent_posts(array('post_type' => 'activity', 'numberposts' => $numberOfResults, 'post_status' => 'publish'));
-            $mostRecentID = 0;
-    
-            if(!$recentPosts){
+        $activityPayload = AnotherReadPostCreator::APIcall();
+        $i = $numberOfResults - 1;
 
-            }
-            else{
-                foreach($recentPosts as $post){
-                    $temp = get_post_meta($post['ID'], '_activity_id', true);
-                    if($temp > $mostRecentID){
-                        $mostRecentID = $temp;
-                    }
-                }
-            }
+        if($activityPayload['ApiCallWasSuccessful'] == true){
 
-            generatePosts($mostRecentID, $numberOfResults);
-        }
-
-        function generatePosts($mostRecentID, $numberOfResults){
-
-            $activityPayload = AnotherReadPostCreator::APIcall();
-            $i = $numberOfResults - 1;
-
+            $activityPayload = $activityPayload['Payload'];
+            
             while($i >= 0 ){
-                if( $activityPayload['Result'][$i]['ActivityID'] > $mostRecentID){
+                if( get_post($activityPayload['Result'][$i]['ActivityID']) == false){
 
                     $activities = $activityPayload['Result'][$i];
                     $contributorID = $activities['ContributorList'][0];
@@ -103,6 +102,8 @@ class AnotherReadPostCreator{
                     $authorName = $contributorLookup['DisplayName'];
                     $authorLink = $contributorLookup['ContributorLink'];
 
+                    //$keywords = $bookLookup['Keywords'];
+
                     $metaInput = array(
                         '_activity_id' => $activityID,
                         '_jacket_image' => $jacketImage,
@@ -119,20 +120,23 @@ class AnotherReadPostCreator{
                         'post_title'    => wp_strip_all_tags( $title ),
                         'post_status'   => 'publish',
                         'post_type'     => 'activity',
-                        'meta_input'    => $metaInput
+                        'meta_input'    => $metaInput,
+                        'import_id'     => $activityID
+                        //'tax_input'     => array( 'keywords' => $keywords )
                     );
-
+                    
                     wp_insert_post($activityPost);
-                    print_r('post created');
+                    // print_r('post created');
                 }
                 $i--;
             }
         }
+        else{
+            new WP_Error( 'error', 'There was an error with the API call. Please check your settings and try again.' );
+        }
 
-        $options = get_option('another_read_settings');
-        $numberOfResults = $options['results'];
+        
 
-        checkRecentPosts($numberOfResults);
     }
 }
 

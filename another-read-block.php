@@ -47,14 +47,6 @@ class AnotherReadGutenbergBlock{
 
     static function activityBlockOutput($block_attributes, $content){
 
-        function post($recent_post){
-            
-            $arraykeys = array('_activity_id','_jacket_image', '_keynote', '_activity_date', '_book_isbn', '_book_name', '_book_link', '_author_name', '_author_link'); 
-            
-            
-
-        }
-
         function createActivity($block_attributes){
 
             $recent_posts = wp_get_recent_posts( array(
@@ -63,7 +55,7 @@ class AnotherReadGutenbergBlock{
                 'post_status' => 'publish',
             ) );
     
-            $str =    '<div class="ar-activity">';
+            $str =    '<div class="ar-activity-block">';
             
             foreach($recent_posts as $recent_post){
                 $title = $recent_post['post_title'];
@@ -75,9 +67,9 @@ class AnotherReadGutenbergBlock{
                 $authorName = get_post_meta($recent_post['ID'], '_author_name', true);
                 $authorLink = get_post_meta($recent_post['ID'], '_author_link', true);
         
-
+                $str .=      '<div class="ar-activity">';
                 $str .=        '<div class="ar-activity-title">';
-                if ($block_attributes['jacketImage'] == true) {$str .=            '<img src="' . $jacketImage . '" alt="">';}
+                if ($block_attributes['jacketImage'] == true) {$str .=            '<img src="' . $jacketImage . '" alt="' . $bookName .'">';}
                 $str .=            '<h2>' . $title . '</h2>';
                 $str .=        '</div>';
                 $str .=        '<div class="ar-activity-body">';
@@ -94,31 +86,15 @@ class AnotherReadGutenbergBlock{
                 $str .=            $authorName .'</a>';
                 $str .=            '</div>';
                 $str .=        '</div>';
-                $str .=    '</div>';
+                $str .=      '</div>';
+
     
                 
             }
             return($str);
 
         }
-
-
-
-        
-        
-            // $str = '<div class="awp-myfirstblock">';
-            // $str .= '<h3>' . $block_attributes['numberOfPosts'] . '</h3>';
-            // $str .= '</div>';
-
         return(createActivity($block_attributes));
-        
-        
-        // sprintf(
-        //     '<a class="wp-block-my-plugin-latest-post" href="%1$s">%2$s</a>',
-        //     esc_url( get_permalink( $post_id ) ),
-        //     esc_html( get_the_title( $post_id ) )
-        // );
-            
     }
 
 
