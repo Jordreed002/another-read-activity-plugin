@@ -16,7 +16,7 @@ import {
  
 registerBlockType( 'another-read/activity-block', {
     apiVersion: 2,
-    title: 'AnotherRead activity',
+    title: 'Another Read Activity',
     icon: 'book',
     category: 'common',
 
@@ -81,13 +81,11 @@ registerBlockType( 'another-read/activity-block', {
                             </PanelRow>
                         </PanelBody>
                     </Panel>
-
-
-
-
-
- 
                 </InspectorControls>
+                <div className='activity-block-notice'>
+                    <h3>Another Read Activity </h3>
+                    <p> Configure using the settings panel</p>
+                </div>
                 <ServerSideRender
                     block="another-read/activity-block"
                     attributes={ attributes }

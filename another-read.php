@@ -1,8 +1,8 @@
 <?php
     /**
-        * Plugin Name: Another read activity plugin
-        * Description: Add activity from anotherread.com to your wesbite using this plugin - includes gutenberg block to add activity content to any of your pages or posts.
-        * Version: 1.0
+        * Plugin Name: Another Read activity plugin dev
+        * Description: Add activity from anotherread.com to your wesbsite using this plugin - includes Gutenberg block to add activity content to any of your pages or posts.
+        * Version: 1.1
         * Author: Line Industries
         * Author URI: https://line.industries/
     */
@@ -18,6 +18,10 @@
 
         function __construct()
         {
+            //Adds scripts and styles
+            add_action('admin_enqueue_scripts', array($this, 'add_admin_scripts'));
+            add_action('wp_enqueue_scripts', array($this, 'add_scripts'));
+
             //Initialises the custom post type
             add_action('init', array('AnotherReadCPT', 'activityCPT'));
             
@@ -43,6 +47,7 @@
                 $this->insertData();
             }
             elseif(isset($_POST['update_posts'])){
+                $this->insertData();
                 $this->createPosts();
 
                 //print_r("things are working");
@@ -70,37 +75,39 @@
 
         }
 
+        //add css to plugin
+        function add_admin_scripts(){
+            wp_enqueue_style('another-read-admin', plugin_dir_url(__FILE__) . 'another-read-admin.css', array(), '1.0.0', 'all');
+        }
+
+        function add_scripts(){
+            wp_enqueue_style('another-read', plugin_dir_url(__FILE__) . 'another-read.css', array(), '1.0.0', 'all');
+        }
+
         function createPosts(){
-            
             add_action('init', array('AnotherReadPostCreator', 'create'));
         }
 
 
         function insertData(){
 
-            if(isset($_POST['update_settings'])){
+            $another_read_settings = array(
+                'keyword' => $_POST['keyword'],
+                'contributor' => $_POST['contributor'],
+                'publisher' => $_POST['publisher'],
+                'results' => $_POST['results'],
+                'accesskey' => $_POST['accesskey'],
+                'apiCallSuccessful' => null
+            );
 
-                $another_read_settings = array(
-                    'keyword' => $_POST['keyword'],
-                    'contributor' => $_POST['contributor'],
-                    'publisher' => $_POST['publisher'],
-                    'results' => $_POST['results'],
-                    'accesskey' => $_POST['accesskey']
-                );
-
-                if(get_option('another_read_settings') !== false) {
-                    update_option('another_read_settings', $another_read_settings);
-                }
-                else{
-                    add_option('another_read_settings', $another_read_settings);
-        
-                    $this->insertData();
-                }
+            if(get_option('another_read_settings') !== false) {
+                update_option('another_read_settings', $another_read_settings);
             }
             else{
-                echo "this didnt work";
+                add_option('another_read_settings', $another_read_settings);
+    
+                $this->insertData();
             }
-
         }
     }
 

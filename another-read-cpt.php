@@ -21,7 +21,7 @@ class AnotherReadCPT{
                 'not_found_in_trash' => 'No activities found in trash'
             ),
             'public' => true,
-            'hierarchical' => true,
+            'hierarchical' => false,
             'has_archive' => false,
             'exclude_from_search' => false,
             'show_in_rest' => true
