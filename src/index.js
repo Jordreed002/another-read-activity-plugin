@@ -65,9 +65,6 @@ registerBlockType( 'another-read/activity-block', {
                                 <TextControl label="Number of activity posts to show" type={('Input Type', 'number')} value={attributes.numberOfPosts} onChange={ ( event ) => setAttributes( {numberOfPosts: event})}></TextControl>
                             </PanelRow>
                             <PanelRow>
-                                <TextControl label="Tags" type={('Input Type', 'text')} ></TextControl>
-                            </PanelRow>
-                            <PanelRow>
                                 <CheckboxControl label="Display jacket image" checked={attributes.jacketImage} onChange={ ( event ) => setAttributes( {jacketImage: event})}></CheckboxControl>
                             </PanelRow>
                             <PanelRow>
