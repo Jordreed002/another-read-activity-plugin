@@ -47,55 +47,57 @@ class AnotherReadGutenbergBlock{
 
     static function activityBlockOutput($block_attributes, $content){
 
-        function createActivity($block_attributes){
+        $recent_posts = wp_get_recent_posts( array(
+            'post_type' => 'activity',
+            'numberposts' => $block_attributes['numberOfPosts'],
+            'post_status' => 'publish',
+        ) );
 
-            $recent_posts = wp_get_recent_posts( array(
-                'post_type' => 'activity',
-                'numberposts' => $block_attributes['numberOfPosts'],
-                'post_status' => 'publish',
-            ) );
-    
-            $str =    '<div class="ar-activity-block">';
-            
-            foreach($recent_posts as $recent_post){
-                $title = $recent_post['post_title'];
-                $jacketImage = get_post_meta($recent_post['ID'], '_jacket_image', true);
-                $activityDate = get_post_meta($recent_post['ID'], '_activity_date', true);
-                $keynote = get_post_meta($recent_post['ID'], '_keynote', true);
-                $bookName = get_post_meta($recent_post['ID'], '_book_name', true);
-                $bookLink = get_post_meta($recent_post['ID'], '_book_link', true);
-                $authorName = get_post_meta($recent_post['ID'], '_author_name', true);
-                $authorLink = get_post_meta($recent_post['ID'], '_author_link', true);
+        $str =    '<div class="ar-activity-block">';
         
-                $str .=      '<div class="ar-activity">';
-                $str .=        '<div class="ar-activity-title">';
-                if ($block_attributes['jacketImage'] == true) {$str .=            '<img src="' . $jacketImage . '" alt="' . $bookName .'">';}
-                $str .=            '<h2>' . $title . '</h2>';
-                $str .=        '</div>';
-                $str .=        '<div class="ar-activity-body">';
-                $str .=            '<p class="ar-activity-date">' . $activityDate . '</p>';
-                if ($block_attributes['keynote'] == true) {$str .=            '<p class="ar-activity-keynote">' . $keynote . '</p>';}
-                $str .=        '</div>';
-                $str .=        '<div class="ar-activity-book">';
-                $str .=            '<div class="ar-book">';
-                if($block_attributes['bookLink'] == true){$str .=                '<a href="'   . $bookLink .   '">';} 
-                $str .=            $bookName .  '</a>';
-                $str .=            '</div>';
-                $str .=            '<div class="ar-book-author">';
-                if( $block_attributes['authorLink'] == true){$str .=                '<a href="' . $authorLink .'">';}  
-                $str .=            $authorName .'</a>';
-                $str .=            '</div>';
-                $str .=        '</div>';
-                $str .=      '</div>';
+        foreach($recent_posts as $recent_post){
+            $title = $recent_post['post_title'];
+            $jacketImage = get_post_meta($recent_post['ID'], '_jacket_image', true);
+            $activityDate = get_post_meta($recent_post['ID'], '_activity_date', true);
+            $keynote = get_post_meta($recent_post['ID'], '_keynote', true);
+            $bookName = get_post_meta($recent_post['ID'], '_book_name', true);
+            $bookLink = get_post_meta($recent_post['ID'], '_book_link', true);
+            $authorName = get_post_meta($recent_post['ID'], '_author_name', true);
+            $authorLink = get_post_meta($recent_post['ID'], '_author_link', true);
+    
+            $str .=      '<div class="ar-activity">';
+            $str .=        '<div class="ar-activity-title">';
+            if ($block_attributes['jacketImage'] == true) {$str .=            '<img src="' . $jacketImage . '" alt="' . $bookName .'">';}
+            $str .=            '<h2>' . $title . '</h2>';
+            $str .=        '</div>';
+            $str .=        '<div class="ar-activity-body">';
+            $str .=            '<p class="ar-activity-date">' . $activityDate . '</p>';
+            if ($block_attributes['keynote'] == true) {$str .=            '<p class="ar-activity-keynote">' . $keynote . '</p>';}
+            $str .=        '</div>';
+            $str .=        '<div class="ar-read-more">';
+            $str .=            '<a class="button button-primary" href="' . get_permalink($recent_post['ID']) . '">Read More</a>';
+            $str .=        '</div>';
+            $str .=        '<div class="ar-activity-book">';
+            $str .=            '<div class="ar-book">';
+            if($block_attributes['bookLink'] == true){$str .=                '<a href="'   . $bookLink .   '">';} 
+            $str .=            $bookName .  '</a>';
+            $str .=            '</div>';
+            $str .=            '<div class="ar-book-author">';
+            if( $block_attributes['authorLink'] == true){$str .=                '<a href="' . $authorLink .'">';}  
+            $str .=            $authorName .'</a>';
+            $str .=            '</div>';
+            $str .=        '</div>';
+            $str .=      '</div>';
+
+
+            
+        }
+            $str .=      '</div>';
+        return($str);
+
+    }
 
     
-                
-            }
-            return($str);
-
-        }
-        return(createActivity($block_attributes));
-    }
 
 
 }

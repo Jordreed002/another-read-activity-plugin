@@ -90,6 +90,9 @@ class AnotherReadPostCreator{
                     $jacketImage = $activities['ActivityJacketImage'];
 
                     $activityDate = $activities['ActivityDate'];
+                    $timestamp = strtotime($activityDate);
+                    $activityDate = date('jS F Y', $timestamp);
+
                     $bookISBN = $activities['Isbn'];
 
 

@@ -1,0 +1,75 @@
+.another-read-activity-post{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.activity-content{
+    width: 100%;
+}
+
+.activity-image{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.activity-image img{
+    width: 550px;
+    height: auto;
+}
+
+.activity-title{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.activity-text{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.activity-info{
+    margin-top: 25px;
+    width: fit-content;
+}
+
+.ar-activity-block{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ar-activity{
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.ar-activity-title{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.ar-activity-keynote{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.ar-read-more{
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    margin-bottom: 20px;
+}
