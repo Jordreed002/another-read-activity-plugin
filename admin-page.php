@@ -10,6 +10,8 @@
 
             $settings = get_option('another_read_settings');
 
+            $publishers = array("Pan Macmillan", "Barefoot Books", "Abrams Books", "Chronicle Books", "Princeton Architectural Press", "Galison Mudpuppy", "Child's Play", "Quarto", "Sweet Cherry Publishing", "Line Industries", "Nobrow", "Childs Play", "Childsplay", "Penguin Books Ltd", "Pushkin Press", "RHCP", "Child's Play (International) Ltd", "Frances Lincoln Children's Books", "Frances Lincoln", "Voyageur Press", "becker&mayer! kids", "QED Publishing", "Walter Foster Jr", "Quarry Books", "Walter Foster Publishing", "Wide Eyed Editions", "Seagrass Press", "MoonDance Press", "Faber & Faber", "Rock Point", "words & pictures", "Ivy Kids", "Ivy Press", "Exisle Publishing", "Zest Books", "Rockport Publishers", "Creative Publishing international", "Race Point Publishing", "Cool Springs Press", "Macmillan", "Young Voyageur", "EK Books", "Leaping Hare Press", "Famillus", "Lincoln Children's Books", "QEB Publishing", "Quarto Children's Books", "QED", "Little Pink Dog Books", "Andersen Press Ltd", "Scribe Publications Pty Ltd.","Curious Fox", "Raintree", "Fair Winds Press", "Apple Press", "Penguin Random House Children's UK", "becker&mayer! books ISBN", "Happy Yak", "Pavilion Children's", "Transworld", "Child's Play (International) Ltd");
+
             if(isset($_POST['update_settings']) || isset($_POST['update_posts'])){ echo '<div class="notice notice-success settings-error"><p>Settings were updated successfuly</p></div>';}
             if(isset($_POST['update_posts']) && $settings['apiCallSuccessful'] == false){ echo '<div class="error"><p>There was an error with the API call. Please check your settings and try again.</p></div>';}
             if(isset($_POST['update_posts']) && $settings['apiCallSuccessful'] == true){ echo '<div class="notice notice-success settings-error"><p>API call was successful and activity posts were gathered.</p></div>';}
@@ -49,7 +51,12 @@
                                             <label for="publisher">Publisher</label>
                                         </th>
                                         <td>
-                                            <input type="text" id="publisher" name="publisher" value="<?php if(isset($settings['publisher'])){echo $settings['publisher'];} ?>" class="regular-text">
+                                            <select name="publisher" id="publisher">
+                                                <option value="" <?php if($settings['publisher'] == ''){ echo 'selected';} ?>>Select</option>
+                                                <?php foreach($publishers as $publisher){
+                                                    echo '<option value="'.$publisher.'"' .($settings['publisher'] == $publisher ? "selected" : "").'>'.$publisher.'</option>';
+                                                } ?>
+                                            </select>
                                         </td>
                                     </tr>
                                     <tr>

@@ -1,8 +1,8 @@
 <?php
     /**
-        * Plugin Name: Another Read activity plugin
+        * Plugin Name: Another Read activity plugin dev
         * Description: Add activity from anotherread.com to your wesbsite using this plugin - includes Gutenberg block to add activity content to any of your pages or posts.
-        * Version: 1.1
+        * Version: 1.2
         * Author: Line Industries
         * Author URI: https://line.industries/
     */
@@ -42,6 +42,8 @@
 
             add_action('getActivityPosts', array('AnotherReadPostCreator', 'create'));
 
+            //Set template for CPT
+            add_filter('single_template', array('AnotherReadCPT', 'setTemplate'));
             
             if(isset($_POST['update_settings'])){
                 $this->insertData();

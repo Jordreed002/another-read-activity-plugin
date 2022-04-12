@@ -180,6 +180,19 @@ class AnotherReadCPT{
         }
     }
 
+    static function setTemplate($single_template){
+        global $post;
+
+        if($post->post_type == 'activity'){
+            $single_template = dirname(__FILE__) . '/activity-post.php';
+
+            return $single_template;
+        }
+        else{
+            return $single_template;
+        }
+    }
+
 }
 
 

@@ -10,8 +10,8 @@
 }
 
 .another-read-content{
-    margin-top: 15px;
     width: 50%;
+    margin-top: 15px;
 }
 
 .another-read-banner{
@@ -27,9 +27,10 @@
 }
 
 .branding-img{
-    margin-top: 10px;
+    margin-top: 30px;
     margin-left: 20px;
-    height: 120px;
+    margin-bottom: 10px;
+    height: 60px;
 }
 
 .content-img{
