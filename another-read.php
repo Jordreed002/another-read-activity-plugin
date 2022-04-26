@@ -2,7 +2,7 @@
     /**
         * Plugin Name: Another Read activity plugin
         * Description: Add activity from anotherread.com to your wesbsite using this plugin - includes Gutenberg block to add activity content to any of your pages or posts.
-        * Version: 1.2
+        * Version: 1.3
         * Author: Line Industries
         * Author URI: https://line.industries/
     */
@@ -54,6 +54,9 @@
 
                 //print_r("things are working");
             }
+
+            //Create RSS Feed for activity posts
+            add_action('init', array($this, 'another_read_rss_feed'));
             
         }
 
@@ -70,24 +73,38 @@
             flush_rewrite_rules();
         }
 
-        //add menu page to wp-admin
+        //Add menu page to wp-admin
         static function adminMenu(){
 
             add_menu_page('Another Read activity settings', 'Another Read', 'manage_options', 'AnotherReadAdminMenu', array('AnotherReadAdmin','adminPage'), '');
 
         }
 
-        //add css to plugin
+        //Add css to admin pages
         function add_admin_scripts(){
             wp_enqueue_style('another-read-admin', plugin_dir_url(__FILE__) . 'another-read-admin.css', array(), '1.0.0', 'all');
         }
 
+        //Add css to regular pages
         function add_scripts(){
             wp_enqueue_style('another-read', plugin_dir_url(__FILE__) . 'another-read.css', array(), '1.0.0', 'all');
         }
 
+        //Creats posts
         function createPosts(){
             add_action('init', array('AnotherReadPostCreator', 'create'));
+        }
+
+        //Creates RSS feed
+        function another_read_rss_feed(){
+            //echo '<h2>Another Read activity feed</h2>';
+            add_feed('another-read-feed', 'CusRssFeed');
+            
+            function CusRssFeed(){
+                //echo '<h2>Another Read activity feed</h2>';
+                load_template(plugin_dir_path(__FILE__) . 'rss-another-read-feed.php');
+            }
+
         }
 
 

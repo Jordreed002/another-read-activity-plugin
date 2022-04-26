@@ -129,13 +129,10 @@ class AnotherReadPostCreator{
                     );
                     
                     wp_insert_post($activityPost);
-                    // print_r('post created');
+                    //print_r('post created');
                 }
                 $i--;
             }
-        }
-        else{
-            new WP_Error( 'error', 'There was an error with the API call. Please check your settings and try again.' );
         }
 
         

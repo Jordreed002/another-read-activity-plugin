@@ -20,7 +20,6 @@ get_header(); ?>
             $bookLink = get_post_meta($current_post['ID'], '_book_link', true);
             $authorName = get_post_meta($current_post['ID'], '_author_name', true);
             $authorLink = get_post_meta($current_post['ID'], '_author_link', true);
-            //var_dump($current_post);
         ?>
   
         <div class="another-read-activity-post">
