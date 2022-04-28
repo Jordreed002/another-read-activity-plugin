@@ -48,7 +48,7 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
         <?php endwhile; 
         
         function rss_content(){
-                $current_post = get_post(the_ID(), ARRAY_A);
+                $current_post = get_post(get_the_ID(), ARRAY_A);
                 $str =    '<div class="ar-activity-block">';
                         $title = $current_post['post_title'];
                         $jacketImage = get_post_meta($current_post['ID'], '_jacket_image', true);
