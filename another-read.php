@@ -14,7 +14,7 @@
     include_once("another-read-block.php");
 
 
-    class AnotherRead{
+    class AnotherReadActivity{
 
         function __construct()
         {
@@ -130,8 +130,8 @@
         }
     }
 
-    if( class_exists('AnotherRead')){
-        $AnotherRead = new AnotherRead();
+    if( class_exists('AnotherReadActivity')){
+        $AnotherReadActivity = new AnotherReadActivity();
     }
     if(! wp_next_scheduled('getActivityPosts')){
         wp_schedule_event(time(), 'daily', 'getActivityPosts');
@@ -139,10 +139,10 @@
 
 
     //Activate hook
-    register_activation_hook(__FILE__, array($AnotherRead, 'activate'));
+    register_activation_hook(__FILE__, array($AnotherReadActivity, 'activate'));
 
     //Deactivate hook
-    register_deactivation_hook(__FILE__, array($AnotherRead, 'deactivate'));
+    register_deactivation_hook(__FILE__, array($AnotherReadActivity, 'deactivate'));
 
 
 
