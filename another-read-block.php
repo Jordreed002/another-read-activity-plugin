@@ -1,6 +1,6 @@
 <?php 
 
-class AnotherReadGutenbergBlock{
+class AnotherReadActivityGutenbergBlock{
     
     static function createActivityBlock(){
         $assetFile = include( plugin_dir_path(__FILE__) . 'build/index.asset.php');

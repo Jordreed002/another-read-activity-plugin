@@ -3,7 +3,7 @@
 *   Admin page
 */
 
-    class AnotherReadAdmin{
+    class AnotherReadActivityAdmin{
 
         //page that is displayed in wp-admin
         static function adminPage(){

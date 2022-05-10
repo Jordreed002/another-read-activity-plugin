@@ -23,27 +23,27 @@
             add_action('wp_enqueue_scripts', array($this, 'add_scripts'));
 
             //Initialises the custom post type
-            add_action('init', array('AnotherReadCPT', 'activityCPT'));
+            add_action('init', array('AnotherReadActivityCPT', 'activityCPT'));
             
             //Initialises the custom post type taxonomy
-            add_action('init', array('AnotherReadCPT', 'activityTaxonomy'));
+            add_action('init', array('AnotherReadActivityCPT', 'activityTaxonomy'));
             
             //Adds the meta boxes to the custom post type
-            add_action('add_meta_boxes', array('AnotherReadCPT', 'createMetaBoxes'));
+            add_action('add_meta_boxes', array('AnotherReadActivityCPT', 'createMetaBoxes'));
             
             //Adds saving to meta boxes
-            add_action('save_post', array('AnotherReadCPT','saveMetaBoxes'));
+            add_action('save_post', array('AnotherReadActivityCPT','saveMetaBoxes'));
             
             //Adds the admin page
             add_action('admin_menu', array($this, 'adminMenu'));
 
             //Adds the gutenberg block
-            add_action('init', array('AnotherReadGutenbergBlock', 'createActivityBlock'));
+            add_action('init', array('AnotherReadActivityGutenbergBlock', 'createActivityBlock'));
 
             add_action('getActivityPosts', array('AnotherReadPostCreator', 'create'));
 
             //Set template for CPT
-            add_filter('single_template', array('AnotherReadCPT', 'setTemplate'));
+            add_filter('single_template', array('AnotherReadActivityCPT', 'setTemplate'));
             
             if(isset($_POST['update_settings'])){
                 $this->insertData();
@@ -62,8 +62,8 @@
 
         // To run on plugin activation
         function activate(){
-            AnotherReadCPT::activityCPT();
-            AnotherReadCPT::activityTaxonomy();
+            AnotherReadActivityCPT::activityCPT();
+            AnotherReadActivityCPT::activityTaxonomy();
             flush_rewrite_rules();
         }
 
@@ -76,7 +76,7 @@
         //Add menu page to wp-admin
         static function adminMenu(){
 
-            add_menu_page('Another Read activity settings', 'Another Read', 'manage_options', 'AnotherReadAdminMenu', array('AnotherReadAdmin','adminPage'), '');
+            add_menu_page('Another Read activity settings', 'Another Read', 'manage_options', 'AnotherReadAdminMenu', array('AnotherReadActivityAdmin','adminPage'), '');
 
         }
 
@@ -92,7 +92,7 @@
 
         //Creats posts
         function createPosts(){
-            add_action('init', array('AnotherReadPostCreator', 'create'));
+            add_action('init', array('AnotherReadActivityPostCreator', 'create'));
         }
 
         //Creates RSS feed

@@ -1,6 +1,6 @@
 <?php 
 
-class AnotherReadPostCreator{
+class AnotherReadActivityPostCreator{
 
 
     static function APIcall(){
@@ -72,7 +72,7 @@ class AnotherReadPostCreator{
         $options = get_option('another_read_settings');
         $numberOfResults = $options['results'];
 
-        $activityPayload = AnotherReadPostCreator::APIcall();
+        $activityPayload = AnotherReadActivityPostCreator::APIcall();
         $i = $numberOfResults - 1;
 
         if($activityPayload['ApiCallWasSuccessful'] == true){

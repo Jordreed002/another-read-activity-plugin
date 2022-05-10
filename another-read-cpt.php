@@ -1,6 +1,6 @@
 <?php 
 
-class AnotherReadCPT{
+class AnotherReadActivityCPT{
 
     static function activityCPT(){
 
