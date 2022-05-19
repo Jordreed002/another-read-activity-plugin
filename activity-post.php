@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying all activity posts
+ * The template for displaying individual activity posts
  *
  */
   

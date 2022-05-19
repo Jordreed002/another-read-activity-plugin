@@ -5,7 +5,7 @@ class AnotherReadActivityPostCreator{
 
     static function APIcall(){
 
-        $options = get_option('another_read_settings');
+        $settings = get_option('another_read_activity_settings');
 
 
         $url = "https://anotherread.com/site/read/templates/api/activities/json/v2/get-activity-list/default.aspx";
@@ -21,18 +21,18 @@ class AnotherReadActivityPostCreator{
     
         $data = array(
         
-            "accesskey" => $options['accesskey'],
-            "quantityofrecords" => $options['results'],
+            "accesskey" => $settings['accesskey'],
+            "quantityofrecords" => $settings['results'],
         );
 
-        if($options['publisher'] !== ''){
-            $data['publisher'] = $options['publisher'];
+        if($settings['publisher'] !== ''){
+            $data['publisher'] = $settings['publisher'];
         }
-        if($options['contributor'] !== ''){
-            $data['contributors'] = $options['contributor'];
+        if($settings['contributor'] !== ''){
+            $data['contributors'] = $settings['contributor'];
         }
-        if($options['keyword'] !== ''){
-            $data['keywords'] = $options['keyword'];
+        if($settings['keyword'] !== ''){
+            $data['keywords'] = $settings['keyword'];
         }
 
     
@@ -46,22 +46,24 @@ class AnotherReadActivityPostCreator{
         if($activityRepsonse["ApiCallWasSuccessful"] == true)
         {
             $timestamp = new DateTime();
-            if(get_option('another_read_settings_timestamp') !== false){
-                update_option('another_read_settings_timestamp', $timestamp);
+            if(isset($settings['timestamp'])){
+                $settings['timestamp'] = $timestamp;
+                update_option('another_read_activity_settings', $settings);
             }
             else{
-                add_option('another_read_settings_timestamp', $timestamp);
+                $settings['timestamp'] = $timestamp;
+                add_option('another_read_activity_settings', $settings);
             }
             //print_r("there was no error");
-            $options['apiCallSuccessful'] = true;
-            update_option('another_read_settings', $options);
+            $settings['apiCallSuccessful'] = true;
+            update_option('another_read_activity_settings', $settings);
             return $activityRepsonse;
         }
         else{
             
             //print_r("there was an error");
-            $options['apiCallSuccessful'] = false;
-            update_option('another_read_settings', $options);
+            $settings['apiCallSuccessful'] = false;
+            update_option('another_read_activity_settings', $settings);
             return $activityRepsonse;
         }
     
@@ -69,8 +71,8 @@ class AnotherReadActivityPostCreator{
 
     static function create(){
 
-        $options = get_option('another_read_settings');
-        $numberOfResults = $options['results'];
+        $settings = get_option('another_read_activity_settings');
+        $numberOfResults = $settings['results'];
 
         $activityPayload = AnotherReadActivityPostCreator::APIcall();
         $i = $numberOfResults - 1;
@@ -108,15 +110,18 @@ class AnotherReadActivityPostCreator{
                     //$keywords = $bookLookup['Keywords'];
 
                     $metaInput = array(
-                        '_activity_id' => $activityID,
-                        '_jacket_image' => $jacketImage,
-                        '_keynote' => $keynote,
-                        '_activity_date' => $activityDate,
-                        '_book_isbn' => $bookISBN,
-                        '_book_name' => $bookName,
-                        '_book_link' => $bookLink,
-                        '_author_name' => $authorName,
-                        '_author_link' => $authorLink
+                        '_activity_content' => array(
+                            'activity_id' => $activityID,
+                            'jacket_image' => $jacketImage,
+                            'keynote' => $keynote,
+                            'activity_date' => $activityDate,
+                            'book_isbn' => $bookISBN,
+                            'book_name' => $bookName,
+                            'book_link' => $bookLink,
+                            'author_name' => $authorName,
+                            'author_link' => $authorLink
+                        )
+
                     );
 
                     $activityPost = array(

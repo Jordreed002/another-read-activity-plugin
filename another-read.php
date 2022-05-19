@@ -1,10 +1,10 @@
 <?php
     /**
-        * Plugin Name: Another Read activity plugin
-        * Description: Add activity from anotherread.com to your wesbsite using this plugin - includes Gutenberg block to add activity content to any of your pages or posts.
+        * Plugin Name: Another Read Activity
+        * Description: Include an activity feed from Another Read and automatically generate posts using this plugin. The plugin includes a Gutenberg block which allows you to add the activity feed to any of your pages or posts.
         * Version: 1.3
-        * Author: Line Industries
-        * Author URI: https://line.industries/
+        * Author: Another Read
+        * Author URI: https://anotherread.com/
     */
 
     defined('ABSPATH') or die('You can/t access this');
@@ -32,7 +32,7 @@
             add_action('add_meta_boxes', array('AnotherReadActivityCPT', 'createMetaBoxes'));
             
             //Adds saving to meta boxes
-            add_action('save_post', array('AnotherReadActivityCPT','saveMetaBoxes'));
+            add_action('save_post', array('AnotherReadActivityCPT','saveActivityMetaBoxes'));
             
             //Adds the admin page
             add_action('admin_menu', array($this, 'adminMenu'));
@@ -40,7 +40,7 @@
             //Adds the gutenberg block
             add_action('init', array('AnotherReadActivityGutenbergBlock', 'createActivityBlock'));
 
-            add_action('getActivityPosts', array('AnotherReadPostCreator', 'create'));
+            add_action('getActivityPosts', array('AnotherReadActivityPostCreator', 'create'));
 
             //Set template for CPT
             add_filter('single_template', array('AnotherReadActivityCPT', 'setTemplate'));
@@ -76,7 +76,22 @@
         //Add menu page to wp-admin
         static function adminMenu(){
 
-            add_menu_page('Another Read activity settings', 'Another Read', 'manage_options', 'AnotherReadAdminMenu', array('AnotherReadActivityAdmin','adminPage'), '');
+            global $menu;
+            $menuExits = false;
+            foreach($menu as $item){
+                if($item[0] == 'Another Read'){
+
+                    $menuExits = true;
+                }
+            }
+            if($menuExits){
+                add_submenu_page('AnotherRead', 'Activity settings', 'Another Read', 'manage_options', 'AnotherRead', array('AnotherReadActivityAdmin','adminPage'), '');
+            }
+            elseif(!$menuExits){
+                add_menu_page('Another Read settings', 'Another Read', 'manage_options', 'AnotherRead', array('AnotherReadActivityAdmin','adminPage'), plugins_url('another-read-activity-plugin/img/brand--red--small.svg'));
+                add_submenu_page('AnotherRead', 'Activity settings', 'Activity settings', 'manage_options', 'AnotherRead', array('AnotherReadActivityAdmin','adminPage'), '');
+
+            }
 
         }
 
@@ -110,7 +125,7 @@
 
         function insertData(){
 
-            $another_read_settings = array(
+            $settings = array(
                 'keyword' => $_POST['keyword'],
                 'contributor' => $_POST['contributor'],
                 'publisher' => $_POST['publisher'],
@@ -119,11 +134,11 @@
                 'apiCallSuccessful' => null
             );
 
-            if(get_option('another_read_settings') !== false) {
-                update_option('another_read_settings', $another_read_settings);
+            if(get_option('another_read_activity_settings') !== false) {
+                update_option('another_read_activity_settings', $settings);
             }
             else{
-                add_option('another_read_settings', $another_read_settings);
+                add_option('another_read_activity_settings', $settings);
     
                 $this->insertData();
             }

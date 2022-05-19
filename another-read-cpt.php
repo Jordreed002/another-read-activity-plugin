@@ -72,16 +72,8 @@ class AnotherReadActivityCPT{
         
     static function activity_data_html($post){
 
-        //array to loop through the metaboxes
-        $arraykeys = array('_activity_id','_jacket_image', '_keynote', '_activity_date', '_book_isbn', '_book_name', '_book_link', '_author_name', '_author_link'); 
-
-        $value = array();
-        $i = 0;
-
-        //Obtains the values for the metaboxes
-        foreach($arraykeys as $arraykey){
-            $value[$i++] = get_post_meta($post->ID, $arraykey, true);
-        }
+        // Post meta data
+        $activityContent = get_post_meta($post->ID, '_activity_content', true);
 
         //html for the meta boxes
         ?>
@@ -90,7 +82,7 @@ class AnotherReadActivityCPT{
                     <label for="activity-id">Activity ID</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="activity-id" value="<?php echo $value[0] ?>" id="activity-id">
+                    <input type="text" name="activity_id" value="<?php echo $activityContent['activity_id'] ?>" id="activity_id">
                 </div>
             </div>
             <div class="meta-container">
@@ -98,7 +90,7 @@ class AnotherReadActivityCPT{
                     <label for="jacket-image">Link to jacket image</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="jacket-image" value="<?php echo $value[1] ?>" id="jacketImage">
+                    <input type="text" name="jacket_image" value="<?php echo $activityContent['jacket_image'] ?>" id="jacket_image">
                 </div>
             </div>
             <div class="meta-container">
@@ -106,7 +98,7 @@ class AnotherReadActivityCPT{
                     <label for="keynote">Keynote</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="keynote" value="<?php echo $value[2] ?>" id="keynote">
+                    <input type="text" name="keynote" value="<?php echo $activityContent['keynote'] ?>" id="keynote">
                 </div>
             </div>
             <div class="meta-container">
@@ -114,7 +106,7 @@ class AnotherReadActivityCPT{
                     <label for="activity-date">Activity date</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="activity-date" value="<?php echo $value[3] ?>" id="activity-date">
+                    <input type="text" name="activity_date" value="<?php echo $activityContent['activity_date'] ?>" id="activity_date">
                 </div>
             </div>
             <div class="meta-container">
@@ -122,7 +114,7 @@ class AnotherReadActivityCPT{
                     <label for="book-isbn">Book ISBN</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="book-isbn" value="<?php echo $value[4] ?>" id="book-isbn">
+                    <input type="text" name="book_isbn" value="<?php echo $activityContent['book_isbn'] ?>" id="book_isbn">
                 </div>
             </div>
             <div class="meta-container">
@@ -130,7 +122,7 @@ class AnotherReadActivityCPT{
                     <label for="book-name">Book name</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="book-name" value="<?php echo $value[5] ?>" id="book-name">
+                    <input type="text" name="book_name" value="<?php echo $activityContent['book_name'] ?>" id="book_name">
                 </div>
             </div>
             <div class="meta-container">
@@ -138,7 +130,7 @@ class AnotherReadActivityCPT{
                     <label for="book-link">Link to book</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="book-link" value="<?php echo $value[6] ?>" id="book-link">
+                    <input type="text" name="book_link" value="<?php echo $activityContent['book_link'] ?>" id="book_link">
                 </div>
             </div>
             <div class="meta-container">
@@ -146,7 +138,7 @@ class AnotherReadActivityCPT{
                     <label for="author-name">Author name</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="author-name" value="<?php echo $value[7] ?>" id="author-name">
+                    <input type="text" name="author_name" value="<?php echo $activityContent['author_name'] ?>" id="author_name">
                 </div>
             </div>
             <div class="meta-container">
@@ -154,30 +146,32 @@ class AnotherReadActivityCPT{
                     <label for="author-link">Link to author</label>
                 </div>
                 <div class="meta-input">
-                    <input type="text" name="author-link" value="<?php echo $value[8] ?>" id="author-link">
+                    <input type="text" name="author_link" value="<?php echo $activityContent['author_link'] ?>" id="author_link">
                 </div>
             </div>
 
         <?php
     }
 
-    static function saveMetaBoxes(int $post_id){
+    static function saveActivityMetaBoxes( $post_id ){
 
         //saves the data entered into the meta boxes when the post is saved
-        $arraykeys = array('_activity_id','_jacket_image', '_keynote', '_activity_date', '_book_isbn', '_book_name', '_book_link', '_author_name', '_author_link'); 
+        $keys = array('activity_id', 'jacket_image', 'keynote', 'activity_date', 'book_isbn', 'book_name', 'book_link', 'author_name', 'author_link');
+        $activityContent = array();
 
-        $keys = array('activity_id', 'jacket-image', 'keynote', 'activity-date', 'book-isbn', 'book-name', 'book-link', 'author-name', 'author-link'); 
+        if( array_key_exists('activity_id', $_POST) && $_POST['activity_id'] == $post_id){
 
-        $i = 0;
-        foreach($arraykeys as $arraykey){
-            if( array_key_exists($keys[$i], $_POST)){                
-                update_post_meta(
-                    $post_id,
-                    $arraykey,
-                    $_POST[$keys[$i++]]
-                );
+            foreach($keys as $key){
+                $activityContent[$key] = $_POST[$key];
             }
+
+            update_post_meta(
+                $post_id,
+                '_activity_content',
+                $activityContent
+            );
         }
+        
     }
 
     static function setTemplate($single_template){
