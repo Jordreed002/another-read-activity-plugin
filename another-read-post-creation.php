@@ -71,6 +71,15 @@ class AnotherReadActivityPostCreator{
 
     static function create(){
 
+        function arrayKeyCheck($key){
+            if(isset($key)){
+               return $key;
+            }
+            else{
+                return '';
+            }
+        }
+
         $settings = get_option('another_read_activity_settings');
         $numberOfResults = $settings['results'];
 
@@ -84,28 +93,28 @@ class AnotherReadActivityPostCreator{
             while($i >= 0 ){
                 if( get_post($activityPayload['Result'][$i]['ActivityID']) == false){
 
-                    $activities = $activityPayload['Result'][$i];
-                    $contributorID = $activities['ContributorList'][0];
+                    $activities = arrayKeyCheck($activityPayload['Result'][$i]);
+                    $contributorID = arrayKeyCheck($activities['ContributorList'][0]);
 
-                    $title = $activities['ActivityText'];
-                    $activityID = $activities['ActivityID'];
-                    $jacketImage = $activities['ActivityJacketImage'];
+                    $title = arrayKeyCheck($activities['ActivityText']);
+                    $activityID = arrayKeyCheck($activities['ActivityID']);
+                    $jacketImage = arrayKeyCheck($activities['ActivityJacketImage']);
 
-                    $activityDate = $activities['ActivityDate'];
+                    $activityDate = arrayKeyCheck($activities['ActivityDate']);
                     $timestamp = strtotime($activityDate);
                     $activityDate = date('jS F Y', $timestamp);
 
                     $bookISBN = $activities['Isbn'];
 
 
-                    $bookLookup = $activityPayload['BookLookup'][$bookISBN];
-                    $keynote = $bookLookup['Keynote'];
-                    $bookName = $bookLookup['Title'];
-                    $bookLink = $bookLookup['BookLink'];
+                    $bookLookup = arrayKeyCheck($activityPayload['BookLookup'][$bookISBN]);
+                    $keynote = arrayKeyCheck($bookLookup['Keynote']);
+                    $bookName = arrayKeyCheck($bookLookup['Title']);
+                    $bookLink = arrayKeyCheck($bookLookup['BookLink']);
 
-                    $contributorLookup = $activityPayload['ContributorLookup'][$contributorID];
-                    $authorName = $contributorLookup['DisplayName'];
-                    $authorLink = $contributorLookup['ContributorLink'];
+                    $contributorLookup = arrayKeyCheck($activityPayload['ContributorLookup'][$contributorID]);
+                    $authorName = arrayKeyCheck($contributorLookup['DisplayName']);
+                    $authorLink = arrayKeyCheck($contributorLookup['ContributorLink']);
 
                     //$keywords = $bookLookup['Keywords'];
 

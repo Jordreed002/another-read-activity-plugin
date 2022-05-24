@@ -14,7 +14,7 @@ class AnotherReadActivityGutenbergBlock{
 
         register_block_type('another-read/activity-block', array(
             'editor_script' => 'anotherReadGutenBlock',
-            'render_callback' => array('AnotherReadGutenbergBlock', 'activityBlockOutput'),
+            'render_callback' => array('AnotherReadActivityGutenbergBlock', 'activityBlockOutput'),
 
             'attributes' => array(
                 'numberOfPosts' => array(
@@ -57,13 +57,15 @@ class AnotherReadActivityGutenbergBlock{
         
         foreach($recent_posts as $recent_post){
             $title = $recent_post['post_title'];
-            $jacketImage = get_post_meta($recent_post['ID'], '_jacket_image', true);
-            $activityDate = get_post_meta($recent_post['ID'], '_activity_date', true);
-            $keynote = get_post_meta($recent_post['ID'], '_keynote', true);
-            $bookName = get_post_meta($recent_post['ID'], '_book_name', true);
-            $bookLink = get_post_meta($recent_post['ID'], '_book_link', true);
-            $authorName = get_post_meta($recent_post['ID'], '_author_name', true);
-            $authorLink = get_post_meta($recent_post['ID'], '_author_link', true);
+            $ActivityContent = get_post_meta($recent_post['ID'], '_activity_content', true);
+
+            $jacketImage = $ActivityContent['jacket_image'];
+            $activityDate = $ActivityContent['activity_date'];
+            $keynote = $ActivityContent['keynote'];
+            $bookName = $ActivityContent['book_name'];
+            $bookLink = $ActivityContent['book_link'];
+            $authorName = $ActivityContent['author_name'];
+            $authorLink = $ActivityContent['author_link'];
     
             $str .=      '<div class="ar-activity">';
             $str .=        '<div class="ar-activity-title">';
