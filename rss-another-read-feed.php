@@ -51,13 +51,15 @@ echo '<?xml version="1.0" encoding="'.get_option('blog_charset').'"?'.'>';
                 $current_post = get_post(get_the_ID(), ARRAY_A);
                 $str =    '<div class="ar-activity-block">';
                         $title = $current_post['post_title'];
-                        $jacketImage = get_post_meta($current_post['ID'], '_jacket_image', true);
-                        $activityDate = get_post_meta($current_post['ID'], '_activity_date', true);
-                        $keynote = get_post_meta($current_post['ID'], '_keynote', true);
-                        $bookName = get_post_meta($current_post['ID'], '_book_name', true);
-                        $bookLink = get_post_meta($current_post['ID'], '_book_link', true);
-                        $authorName = get_post_meta($current_post['ID'], '_author_name', true);
-                        $authorLink = get_post_meta($current_post['ID'], '_author_link', true);
+                        $ActivityContent = get_post_meta($current_post['ID'], '_activity_content', true);
+        
+                        $jacketImage = $ActivityContent['jacket_image'];
+                        $activityDate = $ActivityContent['activity_date'];
+                        $keynote = $ActivityContent['keynote'];
+                        $bookName = $ActivityContent['book_name'];
+                        $bookLink = $ActivityContent['book_link'];
+                        $authorName = $ActivityContent['author_name'];
+                        $authorLink = $ActivityContent['author_link'];
                 
                         $str .=      '<div class="ar-activity">';
                         $str .=        '<div class="ar-activity-title">';
