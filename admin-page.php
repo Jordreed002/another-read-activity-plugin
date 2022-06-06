@@ -43,7 +43,7 @@
                                         </th>
                                         <td>
                                             <input type="text" id="contributor" name="contributor" value="<?php if(isset($settings['contributor'])){echo $settings['contributor'];}  ?>" class="regular-text">
-                                            <p>Find your contributor ID by logging in to <a href="anotherread.com">anotherread.com</a> and viewing your <a href="https://anotherread.com/tools/account-details">account details</a> page.</p>
+                                            <p>Find your contributor ID by logging in to <a href="https://anotherread.com">anotherread.com</a> and viewing your <a href="https://anotherread.com/tools/account-details">account details</a> page.</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -73,7 +73,7 @@
                                         </th>
                                         <td>
                                             <input class="regular-text" type="text" id="accesskey" name="accesskey" value="<?php if(isset($settings['accesskey'])){echo $settings['accesskey'];} ?>" required>
-                                            <p>Get your API key at <a href="anotherread.com">anotherread.com</a>.</p>
+                                            <p>Get your API key at <a href="https://anotherread.com">anotherread.com</a>.</p>
 
                                         </td>
                                     </tr>
